@@ -62,8 +62,18 @@ export default function Clientes() {
     setNewClientModalOpen(false);
     reset();
   };
+
+  const handleDeleteAllClients = () => {
+    clients.forEach((client) => {
+      deleteClient(client.id);
+    });
+  };
+
   return (
     <div>
+      <button onClick={handleDeleteAllClients}>
+        Deletar Todos os Clientes
+      </button>
       <div className="search">
         <div className="search-bar">
           <form action="">
@@ -182,37 +192,6 @@ export default function Clientes() {
           </form>
         </Modal>
       </div>
-      <div className="clients-list">
-        <div className="client-item">
-          <img src="src\assets\flor.jpeg" alt="" />
-          <div className="client-details">
-            <h3>Energia verde</h3>
-            <p>00.000.000</p>
-          </div>
-        </div>
-        <div className="client-item">
-          <img src="src\assets\flor.jpeg" alt="" />
-          <div className="client-details">
-            <h3>Energia verde</h3>
-            <p>00.000.000</p>
-          </div>
-        </div>
-        <div className="client-item">
-          <img src="src\assets\flor.jpeg" alt="" />
-          <div className="client-details">
-            <h3>Energia verde</h3>
-            <p>00.000.000</p>
-          </div>
-        </div>
-        <div className="client-item">
-          <img src="src\assets\flor.jpeg" alt="" />
-          <div className="client-details">
-            <h3>Energia verde</h3>
-            <p>00.000.000</p>
-          </div>
-        </div>
-      </div>
-
       <Modal
         isOpen={clientDetailsModalOpen}
         onRequestClose={() => clientDetailsModalOpen(false)}

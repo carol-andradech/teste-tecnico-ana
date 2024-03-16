@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useClient } from "../../Components/useLocalStorage";
 import axios from "axios";
+import searchImg from "../../assets/search-img.svg"; // Certifique-se de importar a imagem de pesquisa corretamente
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório"),
@@ -17,7 +18,7 @@ const schema = yup.object().shape({
 export default function Pedidos() {
   const [data, setData] = useState(null);
   const [newProductModalOpen, setNewProductModalOpen] = useState(false);
-  const { createClient } = useClient();
+  const { createClient } = useClient(); // Corrija aqui se necessário
 
   const {
     register,
@@ -29,10 +30,20 @@ export default function Pedidos() {
   });
 
   const onSubmit = (data) => {
-    // Adicione o novo produto usando a função createClient do hook useClient
-    createClient(data);
-    setNewProductModalOpen(false);
-    reset();
+    // Adicione o novo pedido aqui (usando a função correta)
+    // Por exemplo, se for usar axios:
+    axios
+      .post("http://localhost:5173/pedidos", data)
+      .then((response) => {
+        console.log("Pedido criado com sucesso:", response.data);
+        // Aqui você pode atualizar o estado ou fazer outras operações necessárias
+        // setData(response.data);
+        setNewProductModalOpen(false);
+        reset();
+      })
+      .catch((error) => {
+        console.error("Erro ao criar pedido:", error);
+      });
   };
 
   useEffect(() => {
@@ -48,10 +59,25 @@ export default function Pedidos() {
 
   return (
     <>
-      <button onClick={() => setNewProductModalOpen(true)}>
-        Adicionar Produto
-      </button>
-
+      <div className="search">
+        <div className="search-bar">
+          <form action="">
+            <input
+              type="text"
+              placeholder="Pesquisar"
+              className="search-input"
+            />
+            <button></button>
+            <img src={searchImg} className="search-icon" alt="search" />
+          </form>
+        </div>
+        <button
+          className="btn-search"
+          onClick={() => setNewProductModalOpen(true)}
+        >
+          + Novo Pedido
+        </button>
+      </div>
       <Modal
         isOpen={newProductModalOpen}
         onRequestClose={() => setNewProductModalOpen(false)}

@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import searchImg from "../../assets/search-img.svg"; // Importe a imagem de pesquisa
 
 // Defina o esquema de validação para os campos do formulário
 const schema = yup.object().shape({
@@ -16,6 +17,7 @@ const schema = yup.object().shape({
 export default function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [newProductModalOpen, setNewProductModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de pesquisa
 
   const {
     register,
@@ -42,33 +44,40 @@ export default function Produtos() {
   }, []);
 
   const onSubmit = (data) => {
-    // Aqui você pode enviar os dados do novo produto para a API
-    // e atualizar a lista de produtos
-    // Exemplo de como enviar os dados para a API:
-    // axios.post("http://localhost:5173/produtos", data)
-    //   .then((response) => {
-    //     // Atualizar a lista de produtos após a criação bem-sucedida
-    //     setProdutos([...produtos, response.data]);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Erro ao criar produto:", error);
-    //   });
-
-    // Aqui, por simplicidade, apenas adicionamos o novo produto à lista
     setProdutos([...produtos, data]);
-
-    // Fechar o modal e limpar o formulário
     setNewProductModalOpen(false);
     reset();
   };
 
+  // Função para filtrar os produtos com base no termo de pesquisa
+  const filteredProdutos = produtos.filter((produto) =>
+    produto.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
       <h1>Produtos</h1>
-      <button onClick={() => setNewProductModalOpen(true)}>
-        Adicionar Produto
-      </button>
-
+      <div className="search">
+        <div className="search-bar">
+          <form>
+            <input
+              type="text"
+              placeholder="Pesquisar..."
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button type="submit"></button>
+            <img src={searchImg} className="search-icon" alt="search" />
+          </form>
+        </div>
+        <button
+          className="btn-search"
+          onClick={() => setNewProductModalOpen(true)}
+        >
+          + Novo Produto
+        </button>
+      </div>
       <Modal
         isOpen={newProductModalOpen}
         onRequestClose={() => setNewProductModalOpen(false)}
@@ -107,7 +116,7 @@ export default function Produtos() {
       </Modal>
 
       <div>
-        {produtos.map((produto, index) => (
+        {filteredProdutos.map((produto, index) => (
           <div key={index}>
             <h3>{produto.nome}</h3>
             <p>Preço: {produto.preco}</p>
