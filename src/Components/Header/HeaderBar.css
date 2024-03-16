@@ -1,0 +1,16 @@
+header {
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.header-center {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #787879;
+}
