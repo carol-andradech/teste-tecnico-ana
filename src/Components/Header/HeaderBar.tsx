@@ -1,20 +1,27 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import clientesSvg from "../../assets/clientes.svg";
+import pedidosSvg from "../../assets/pedidos.svg";
+import produtosSvg from "../../assets/produtos.svg";
+import "./HeaderBar.css";
+
 export default function HeaderBar() {
   return (
     <div className="header-center">
-      <a href="https://exemplo.com">
-        <img src="src\assets\clientes.svg" alt="" className="svg-img" />{" "}
-        Clientes
-      </a>
+      {/* Link para a página de Clientes */}
+      <Link to="/clientes">
+        <img src={clientesSvg} alt="" className="svg-img" /> Clientes
+      </Link>
 
-      <a href="https://exemplo.com">
-        <img src="src\assets\pedidos.svg" alt="" className="svg-img" />
-        Pedidos
-      </a>
+      {/* Link para a página de Pedidos */}
+      <Link to="/pedidos">
+        <img src={pedidosSvg} alt="" className="svg-img" /> Pedidos
+      </Link>
 
-      <a href="https://exemplo.com">
-        <img src="src\assets\produtos.svg" alt="" className="svg-img" />
-        Produtos
-      </a>
+      {/* Link para a página de Produtos */}
+      <Link to="/produtos">
+        <img src={produtosSvg} alt="" className="svg-img" /> Produtos
+      </Link>
     </div>
   );
 }

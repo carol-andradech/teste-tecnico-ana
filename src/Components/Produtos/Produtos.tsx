@@ -1,23 +1,21 @@
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Modal from "react-modal";
-import { useClient } from "../../Components/useLocalStorage";
 import axios from "axios";
+import Modal from "react-modal";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
+// Defina o esquema de validação para os campos do formulário
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório"),
   preco: yup.number().required("Preço é obrigatório"),
   descricao: yup.string().required("Descrição é obrigatória"),
   imagem: yup.string().required("Imagem é obrigatória"),
-  // Adicione outras validações conforme necessário
 });
 
-export default function Pedidos() {
-  const [data, setData] = useState(null);
+export default function Produtos() {
+  const [produtos, setProdutos] = useState([]);
   const [newProductModalOpen, setNewProductModalOpen] = useState(false);
-  const { createClient } = useClient();
 
   const {
     register,
@@ -28,26 +26,45 @@ export default function Pedidos() {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:5173/produtos")
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setProdutos(response.data);
+        } else {
+          console.error("Dados retornados não são um array:", response.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao obter produtos:", error);
+      });
+  }, []);
+
   const onSubmit = (data) => {
-    // Adicione o novo produto usando a função createClient do hook useClient
-    createClient(data);
+    // Aqui você pode enviar os dados do novo produto para a API
+    // e atualizar a lista de produtos
+    // Exemplo de como enviar os dados para a API:
+    // axios.post("http://localhost:5173/produtos", data)
+    //   .then((response) => {
+    //     // Atualizar a lista de produtos após a criação bem-sucedida
+    //     setProdutos([...produtos, response.data]);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Erro ao criar produto:", error);
+    //   });
+
+    // Aqui, por simplicidade, apenas adicionamos o novo produto à lista
+    setProdutos([...produtos, data]);
+
+    // Fechar o modal e limpar o formulário
     setNewProductModalOpen(false);
     reset();
   };
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5173/pedidos")
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro ao obter pedidos:", error);
-      });
-  }, []);
-
   return (
-    <>
+    <div>
+      <h1>Produtos</h1>
       <button onClick={() => setNewProductModalOpen(true)}>
         Adicionar Produto
       </button>
@@ -88,6 +105,17 @@ export default function Pedidos() {
           <button type="submit">Salvar</button>
         </form>
       </Modal>
-    </>
+
+      <div>
+        {produtos.map((produto, index) => (
+          <div key={index}>
+            <h3>{produto.nome}</h3>
+            <p>Preço: {produto.preco}</p>
+            <p>Descrição: {produto.descricao}</p>
+            <p>Imagem: {produto.imagem}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -1,0 +1,160 @@
+/*header {
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+
+  .header-center {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #787879;
+  }
+*/
+.svg-img {
+  width: 15px;
+  height: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 30px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.search-bar input {
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: #787879 1px solid;
+  position: relative;
+}
+.search.input {
+  padding-right: 30px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px; // Ajustado para 10px para posicionar corretamente
+  top: 50%; // Ajustado para 50% para centralizar verticalmente
+  transform: translateY(-50%); // Centralizar verticalmente
+  width: 20px;
+  height: 20px;
+}
+
+.btn-search {
+  width: 150px;
+  height: 40px;
+  background-color: #0b60b0;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+}
+
+.clients-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px;
+}
+
+.client-item {
+  background-color: white;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.client-item img {
+  height: 80px;
+  width: 80px;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Cor preta semi-transparente */
+  position: fixed; /* Mude para posição fixa */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000; /* Certifique-se de que a sobreposição esteja na frente de todo o conteúdo */
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%; /* Centraliza verticalmente */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translate(-50%, -50%); /* Centraliza completamente */
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-modal {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.items-modal {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.items-modal label {
+  margin-bottom: 10px;
+}
+
+.items-modal input {
+  border: #787879 1px solid;
+  border-radius: 10px;
+  width: 300px;
+  height: 40px;
+}
+
+.btn-modal {
+  align-self: flex-end; /* Alinha o botão ao final do contêiner flex */
+  margin-left: auto; /* Move o botão para o canto direito */
+  width: 100px; /* Defina a largura do botão */
+  height: 40px; /* Defina a altura do botão */
+  background-color: #0b60b0; /* Cor de fundo do botão */
+  border: none; /* Remove a borda do botão */
+  border-radius: 10px; /* Adiciona borda arredondada ao botão */
+  color: white; /* Cor do texto do botão */
+  padding: 10px; /* Adiciona preenchimento interno ao botão */
+}
+
+.client-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 300px;
+}
+
+.client-info p {
+  color: black;
+  font-weight: bold;
+}
+
+.client-info span {
+  color: gray;
+  font-weight: lighter;
+}
