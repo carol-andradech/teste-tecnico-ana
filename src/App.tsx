@@ -1,11 +1,12 @@
-import * as yup from "yup"; // Biblioteca externa
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState, useEffect } from "react"; // Biblioteca externa
-import { useForm } from "react-hook-form"; // Biblioteca externa
-import Modal from "react-modal"; // Biblioteca externa
-import searchImg from "../src/assets/search-img.svg"; // Arquivo local do projeto
-import HeaderBar from "./Components/Header/HeaderBar"; // Arquivo local do projeto
-import "./App.css"; // Estilos (arquivo local do projeto)
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import Modal from "react-modal";
+import searchImg from "../src/assets/search-img.svg";
+import HeaderBar from "./Components/Header/HeaderBar";
+import "./App.css";
+import { useClient } from "./Components/useLocalStorage"; // Importe o hook useClient
 
 Modal.setAppElement("#root");
 
@@ -22,11 +23,13 @@ const schema = yup.object().shape({
 });
 
 export default function App() {
-  const [newClientModalOpen, setNewClientModalOpen] = useState(false); // Estado para controlar se o modal de adicionar novo cliente está aberto
-  const [clientDetailsModalOpen, setClientDetailsModalOpen] = useState(false); // Estado para controlar se o modal de detalhes do cliente está aberto
-  const [formData, setFormData] = useState(null); // Estado para armazenar os dados do formulário
+  const [newClientModalOpen, setNewClientModalOpen] = useState(false);
+  const [clientDetailsModalOpen, setClientDetailsModalOpen] = useState(false);
+  const [formData, setFormData] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
-  const [clients, setClients] = useState([]);
+
+  // Utilize o hook useClient para gerenciar os clientes
+  const { createClient, updateClient, deleteClient, clients } = useClient();
 
   const {
     register,
@@ -37,35 +40,6 @@ export default function App() {
     resolver: yupResolver(schema),
   });
 
-  // Função para salvar os dados no localStorage
-  const saveFormData = (data) => {
-    localStorage.setItem("formData", JSON.stringify(data));
-  };
-
-  // Função para remover os dados do localStorage
-  const removeFormData = () => {
-    localStorage.removeItem("formData");
-  };
-
-  const onSubmit = (data) => {
-    const newClient = {
-      id: clients.length + 1, // Gerar um novo ID único para o cliente
-      ...data, // Utilizar os dados do formulário
-      foto: "https://via.placeholder.com/150", // Adicionar uma URL padrão para a foto (você pode alterar conforme necessário)
-    };
-
-    const updatedClients = [...clients, newClient]; // Criar uma nova lista de clientes com o novo cliente adicionado
-
-    console.log(updatedClients); // Mostrar a lista de clientes atualizada no console (opcional)
-
-    setNewClientModalOpen(false); // Fechar o modal após o envio do formulário
-    reset(); // Redefinir o formulário após o envio
-    saveFormData(data); // Salvar os dados no localStorage
-
-    setClients(updatedClients); // Atualizar o estado dos clientes com a nova lista de clientes
-  };
-
-  // useEffect para verificar e carregar dados do localStorage ao carregar a página
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("formData"));
     if (savedData) {
@@ -78,27 +52,16 @@ export default function App() {
     setClientDetailsModalOpen(true);
   };
 
+  const onSubmit = (data) => {
+    // Adicione um novo cliente usando o método createClient do hook useClient
+    createClient(data);
+    setNewClientModalOpen(false);
+    reset();
+  };
+
   return (
     <>
-      <header>
-        <div className="header-center">
-          <a href="https://exemplo.com">
-            <img src="src\assets\clientes.svg" alt="" className="svg-img" />{" "}
-            Clientes
-          </a>
-
-          <a href="https://exemplo.com">
-            <img src="src\assets\pedidos.svg" alt="" className="svg-img" />
-            Pedidos
-          </a>
-
-          <a href="https://exemplo.com">
-            <img src="src\assets\produtos.svg" alt="" className="svg-img" />
-            Produtos
-          </a>
-        </div>
-      </header>
-
+      <HeaderBar />
       <div className="search">
         <div className="search-bar">
           <form action="">
@@ -210,6 +173,7 @@ export default function App() {
                 {errors.numero && <span>{errors.numero.message}</span>}
               </div>
             </div>
+
             <button className="btn-modal" type="submit">
               Salvar
             </button>
@@ -246,6 +210,7 @@ export default function App() {
           </div>
         </div>
       </div>
+
       <Modal
         isOpen={clientDetailsModalOpen}
         onRequestClose={() => clientDetailsModalOpen(false)}
@@ -298,6 +263,7 @@ export default function App() {
           </>
         )}
       </Modal>
+
       <div className="clients-list">
         {/* Lista de clientes */}
         {clients.map((client) => (

@@ -1,20 +1,20 @@
-header {
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-}
+/*header {
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
 
-.header-center {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-}
+  .header-center {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
 
-a {
-  text-decoration: none;
-  color: #787879;
-}
-
+  a {
+    text-decoration: none;
+    color: #787879;
+  }
+*/
 .svg-img {
   width: 15px;
   height: 15px;
@@ -27,6 +27,9 @@ a {
   flex-direction: row;
   justify-content: space-between;
   margin: 30px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .search-bar input {
@@ -52,7 +55,7 @@ a {
 .btn-search {
   width: 150px;
   height: 40px;
-  background-color: #40a2e3;
+  background-color: #0b60b0;
   border: none;
   border-radius: 10px;
   color: white;
@@ -133,7 +136,7 @@ a {
   margin-left: auto; /* Move o botão para o canto direito */
   width: 100px; /* Defina a largura do botão */
   height: 40px; /* Defina a altura do botão */
-  background-color: #40a2e3; /* Cor de fundo do botão */
+  background-color: #0b60b0; /* Cor de fundo do botão */
   border: none; /* Remove a borda do botão */
   border-radius: 10px; /* Adiciona borda arredondada ao botão */
   color: white; /* Cor do texto do botão */
