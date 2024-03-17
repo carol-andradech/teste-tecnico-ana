@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import searchImg from "../../assets/search-img.svg"; // Importe a imagem de pesquisa
-
+import { useProduto } from "../Produtos/useLocalStorageProduto";
+import "./Produtos.css";
+Modal.setAppElement("#root");
 // Defina o esquema de validação para os campos do formulário
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório"),
@@ -16,8 +18,12 @@ const schema = yup.object().shape({
 
 export default function Produtos() {
   const [produtos, setProdutos] = useState([]);
+  const [selectedProduto, setSelectedProduto] = useState(null);
   const [newProductModalOpen, setNewProductModalOpen] = useState(false);
+  const [produtoDetailsModalOpen, setProdutoDetailsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de pesquisa
+
+  const { createProduto, deleteProduto, produto } = useProduto();
 
   const {
     register,
@@ -43,20 +49,23 @@ export default function Produtos() {
       });
   }, []);
 
+  const handleProdutoClick = (produto) => {
+    setSelectedProduto(produto);
+    setProdutoDetailsModalOpen(true);
+  };
+
   const onSubmit = (data) => {
-    setProdutos([...produtos, data]);
+    createProduto(data);
     setNewProductModalOpen(false);
     reset();
   };
 
-  // Função para filtrar os produtos com base no termo de pesquisa
   const filteredProdutos = produtos.filter((produto) =>
     produto.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div>
-      <h1>Produtos</h1>
       <div className="search">
         <div className="search-bar">
           <form>
@@ -114,14 +123,53 @@ export default function Produtos() {
           <button type="submit">Salvar</button>
         </form>
       </Modal>
+      <Modal
+        isOpen={produtoDetailsModalOpen}
+        onRequestClose={() => setProdutoDetailsModalOpen(false)}
+        overlayClassName="modal-overlay"
+        className="modal-content"
+      >
+        {selectedProduto && (
+          <>
+            <h2>Detalhes do Produto</h2>
+            <hr></hr>
+            <div className="modal-details">
+              <img src="src\assets\empty.jpg" alt="" />
+              <div className="modal-detail-item">
+                <h2>{selectedProduto.nome}</h2>
+                <p>Preço: R$ {selectedProduto.preco}</p>
+                <p className="p-detail">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  et pulvinar nibh. Proin dictum lectus sed ligula rhoncus, vel
+                  tincidunt nisl tempus. In pulvinar auctor erat, a rhoncus mi
+                  viverra eu. Nullam et sagittis dui, eu euismod est. Vestibulum
+                  sem quam, viverra eget lacus sed, maximus ullamcorper nisi.
+                  Vestibulum ante ipsum primis in faucibus orci luctus et
+                  ultrices posuere cubilia curae; Donec justo elit, hendrerit
+                  sit amet quam id, feugiat placerat diam. Pellentesque quis
+                  suscipit massa. Sed libero metus, feugiat a dolor sed, iaculis
+                  pellentesque felis. Proin dignissim vulputate elit eget
+                  sodales. Nulla facilisi. Proin urna libero, dictum maximus
+                  ligula a, vulputate consequat arcu.
+                </p>
+              </div>
+            </div>
+          </>
+        )}
+      </Modal>
 
-      <div>
-        {filteredProdutos.map((produto, index) => (
-          <div key={index}>
-            <h3>{produto.nome}</h3>
-            <p>Preço: {produto.preco}</p>
-            <p>Descrição: {produto.descricao}</p>
-            <p>Imagem: {produto.imagem}</p>
+      <div className="produto-list">
+        {produto.map((produto, index) => (
+          <div
+            key={index}
+            className="produto-item"
+            onClick={() => handleProdutoClick(produto)}
+          >
+            <img src="src\assets\empty.jpg" alt="" />
+            <div className="produto-detail">
+              <p>{produto.nome}</p>
+              <p className="preco">R$ {produto.preco}</p>
+            </div>
           </div>
         ))}
       </div>

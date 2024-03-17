@@ -114,6 +114,23 @@ export default function Pedidos() {
           <button type="submit">Salvar</button>
         </form>
       </Modal>
+
+      <div className="produto-list">
+        {/* Lista de clientes */}
+        {produto.map((produto) => (
+          <div
+            className="produto-item"
+            key={produto.id}
+            onClick={() => handleProdutoClick(produto)}
+          >
+            <img src={produto.foto} alt={produto.nome} />
+            <div className="produto-details">
+              <h3>{produto.nome}</h3>
+              <p>{produto.cnpj}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

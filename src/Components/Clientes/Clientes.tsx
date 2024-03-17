@@ -31,6 +31,7 @@ export default function Clientes() {
   const [clientDetailsModalOpen, setClientDetailsModalOpen] = useState(false);
   const [formData, setFormData] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Utilize o hook useClient para gerenciar os clientes
   const { createClient, updateClient, deleteClient, clients } = useClient();
@@ -68,7 +69,12 @@ export default function Clientes() {
       deleteClient(client.id);
     });
   };
-
+  /*
+  const filteredClients = clients.filter((client) =>
+    client.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  };
+*/
   return (
     <div>
       <button onClick={handleDeleteAllClients}>
@@ -79,8 +85,10 @@ export default function Clientes() {
           <form action="">
             <input
               type="text"
-              placeholder="    Pesquisar"
+              placeholder="Pesquisar..."
               className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button></button>
             <img src={searchImg} className="search-icon" alt="search" />
@@ -253,7 +261,7 @@ export default function Clientes() {
             key={client.id}
             onClick={() => handleClientClick(client)}
           >
-            <img src={client.foto} alt={client.nome} />
+            <img src="src\assets\empty.jpg" alt={client.nome} />
             <div className="client-details">
               <h3>{client.nome}</h3>
               <p>{client.cnpj}</p>

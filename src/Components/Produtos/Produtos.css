@@ -1,0 +1,39 @@
+.produto-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 20px;
+}
+
+.produto-item {
+  background-color: white;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.produto-item img {
+  border-radius: 10px 10px 0 0;
+}
+
+.produto-detail {
+  margin: 10px;
+}
+
+.produto-detail .preco {
+  font-weight: bold;
+}
+
+.modal-details {
+  display: flex;
+  width: 100vh;
+}
+
+.modal-detail-item {
+  margin: 20px;
+}
+
+.p-detail {
+  font-weight: lighter;
+}
