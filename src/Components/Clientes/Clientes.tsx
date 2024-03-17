@@ -57,7 +57,7 @@ export default function Clientes() {
     const filtered = clients.filter((client) =>
       client.nome.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredClient(filtered);
+    setFilteredClient(filtered.length ? filtered : null); // Set filteredClient to null if no results are found
   };
 
   const handleClientClick = (client) => {
@@ -69,11 +69,6 @@ export default function Clientes() {
     createClient(data);
     setNewClientModalOpen(false);
     setFormData(null);
-  };
-
-  const handleClearSearch = () => {
-    setSearchTerm("");
-    setFilteredClient(null);
   };
 
   const handleDeleteAllClients = () => {
@@ -118,12 +113,6 @@ export default function Clientes() {
     }
   };
 
-  /*
-  const filteredClients = clients.filter((client) =>
-    client.nome.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  };
-*/
   return (
     <div>
       <button onClick={handleDeleteAllClients}>
@@ -308,9 +297,6 @@ export default function Clientes() {
       <div className="clients-list">
         {renderClientList()}{" "}
         {/* Aqui está a chamada para a função renderClientList() */}
-        {filteredClient && (
-          <button onClick={handleClearSearch}>Limpar pesquisa</button>
-        )}
       </div>
     </div>
   );
