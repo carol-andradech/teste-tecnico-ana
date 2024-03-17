@@ -32,6 +32,7 @@ export default function Clientes() {
   const [formData, setFormData] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredClient, setFilteredClient] = useState(null);
 
   // Utilize o hook useClient para gerenciar os clientes
   const { createClient, updateClient, deleteClient, clients } = useClient();
@@ -52,16 +53,27 @@ export default function Clientes() {
     }
   }, []);
 
+  const handleFilterClients = () => {
+    const filtered = clients.filter((client) =>
+      client.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredClient(filtered);
+  };
+
   const handleClientClick = (client) => {
     setSelectedClient(client);
     setClientDetailsModalOpen(true);
   };
 
   const onSubmit = (data) => {
-    // Adicione um novo cliente usando o método createClient do hook useClient
     createClient(data);
     setNewClientModalOpen(false);
-    reset();
+    setFormData(null);
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    setFilteredClient(null);
   };
 
   const handleDeleteAllClients = () => {
@@ -69,6 +81,43 @@ export default function Clientes() {
       deleteClient(client.id);
     });
   };
+  const renderClientList = () => {
+    if (searchTerm.trim() !== "") {
+      return (
+        <>
+          {filteredClient &&
+            filteredClient.map((client) => (
+              <div
+                className={`client-item ${client ? "highlighted" : ""}`}
+                key={client.id}
+                onClick={() => handleClientClick(client)}
+              >
+                <img src="src\assets\empty.jpg" alt={client.nome} />
+                <div className="client-details">
+                  <h3>{client.nome}</h3>
+                  <p>{client.cnpj}</p>
+                </div>
+              </div>
+            ))}
+        </>
+      );
+    } else {
+      return clients.map((client) => (
+        <div
+          className="client-item"
+          key={client.id}
+          onClick={() => handleClientClick(client)}
+        >
+          <img src="src\assets\empty.jpg" alt={client.nome} />
+          <div className="client-details">
+            <h3>{client.nome}</h3>
+            <p>{client.cnpj}</p>
+          </div>
+        </div>
+      ));
+    }
+  };
+
   /*
   const filteredClients = clients.filter((client) =>
     client.nome.toLowerCase().includes(searchTerm.toLowerCase())
@@ -88,8 +137,12 @@ export default function Clientes() {
               placeholder="Pesquisar..."
               className="search-input"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                handleFilterClients(); // Chame a função de filtro aqui
+              }}
             />
+
             <button></button>
             <img src={searchImg} className="search-icon" alt="search" />
           </form>
@@ -202,14 +255,14 @@ export default function Clientes() {
       </div>
       <Modal
         isOpen={clientDetailsModalOpen}
-        onRequestClose={() => clientDetailsModalOpen(false)}
+        onRequestClose={() => setClientDetailsModalOpen(false)}
         overlayClassName="modal-overlay"
         className="modal-content"
       >
         {selectedClient && (
           <>
             <h2>{selectedClient.nome}</h2>
-            <hr></hr>
+            <hr />
             <div className="client-info">
               <div>
                 <p>Nome</p>
@@ -219,21 +272,20 @@ export default function Clientes() {
                 <p>CNPJ</p>
                 <span>{selectedClient.cnpj}</span>
               </div>
-
               <div>
-                <p>Telefone </p>
+                <p>Telefone</p>
                 <span>{selectedClient.telefone}</span>
               </div>
               <div>
-                <p>CEP </p>
+                <p>CEP</p>
                 <span>{selectedClient.cep}</span>
               </div>
               <div>
-                <p>Estado </p>
+                <p>Estado</p>
                 <span>{selectedClient.estado}</span>
               </div>
               <div>
-                <p>Cidade </p>
+                <p>Cidade</p>
                 <span>{selectedClient.cidade}</span>
               </div>
               <div>
@@ -254,20 +306,11 @@ export default function Clientes() {
       </Modal>
 
       <div className="clients-list">
-        {/* Lista de clientes */}
-        {clients.map((client) => (
-          <div
-            className="client-item"
-            key={client.id}
-            onClick={() => handleClientClick(client)}
-          >
-            <img src="src\assets\empty.jpg" alt={client.nome} />
-            <div className="client-details">
-              <h3>{client.nome}</h3>
-              <p>{client.cnpj}</p>
-            </div>
-          </div>
-        ))}
+        {renderClientList()}{" "}
+        {/* Aqui está a chamada para a função renderClientList() */}
+        {filteredClient && (
+          <button onClick={handleClearSearch}>Limpar pesquisa</button>
+        )}
       </div>
     </div>
   );

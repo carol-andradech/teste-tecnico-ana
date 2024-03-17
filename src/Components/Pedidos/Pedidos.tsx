@@ -1,25 +1,30 @@
+// Pedidos.js
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import { useClient } from "../../Components/useLocalStorage";
 import axios from "axios";
-import searchImg from "../../assets/search-img.svg"; // Certifique-se de importar a imagem de pesquisa corretamente
+import { usePedido } from "../Pedidos/useLocalStoragePedido";
+import searchImg from "../../assets/search-img.svg";
+
+Modal.setAppElement("#root");
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório"),
   preco: yup.number().required("Preço é obrigatório"),
   descricao: yup.string().required("Descrição é obrigatória"),
   imagem: yup.string().required("Imagem é obrigatória"),
-  // Adicione outras validações conforme necessário
 });
 
 export default function Pedidos() {
-  const [data, setData] = useState(null);
-  const [newProductModalOpen, setNewProductModalOpen] = useState(false);
-  const { createClient } = useClient(); // Corrija aqui se necessário
+  const [pedidos, setPedidos] = useState([]);
+  const [selectedPedido, setSelectedPedido] = useState(null);
+  const [newPedidoModalOpen, setNewPedidoModalOpen] = useState(false);
+  const [pedidoDetailsModalOpen, setPedidoDetailsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const { createPedido, deletePedido, pedido } = usePedido();
   const {
     register,
     handleSubmit,
@@ -29,43 +34,42 @@ export default function Pedidos() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    // Adicione o novo pedido aqui (usando a função correta)
-    // Por exemplo, se for usar axios:
-    axios
-      .post("http://localhost:5173/pedidos", data)
-      .then((response) => {
-        console.log("Pedido criado com sucesso:", response.data);
-        // Aqui você pode atualizar o estado ou fazer outras operações necessárias
-        // setData(response.data);
-        setNewProductModalOpen(false);
-        reset();
-      })
-      .catch((error) => {
-        console.error("Erro ao criar pedido:", error);
-      });
+  const handlePedidoClick = (pedido) => {
+    setSelectedPedido(pedido);
+    setPedidoDetailsModalOpen(true);
+  };
+
+  const onSubmitNewPedido = (data) => {
+    createPedido(data);
+    setNewPedidoModalOpen(false);
+    reset();
   };
 
   useEffect(() => {
     axios
       .get("http://localhost:5173/pedidos")
       .then((response) => {
-        setData(response.data);
+        setPedidos(response.data);
       })
       .catch((error) => {
         console.error("Erro ao obter pedidos:", error);
       });
   }, []);
 
+  const handleSearchInputChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <>
       <div className="search">
         <div className="search-bar">
-          <form action="">
+          <form action="#">
             <input
               type="text"
               placeholder="Pesquisar"
               className="search-input"
+              onChange={handleSearchInputChange}
             />
             <button></button>
             <img src={searchImg} className="search-icon" alt="search" />
@@ -73,20 +77,20 @@ export default function Pedidos() {
         </div>
         <button
           className="btn-search"
-          onClick={() => setNewProductModalOpen(true)}
+          onClick={() => setNewPedidoModalOpen(true)}
         >
           + Novo Pedido
         </button>
       </div>
       <Modal
-        isOpen={newProductModalOpen}
-        onRequestClose={() => setNewProductModalOpen(false)}
+        isOpen={newPedidoModalOpen}
+        onRequestClose={() => setNewPedidoModalOpen(false)}
         overlayClassName="modal-overlay"
         className="modal-content"
       >
-        <h2>Adicionar Produto</h2>
+        <h2>Adicionar Pedido</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmitNewPedido)}>
           <div>
             <label>Nome</label>
             <input type="text" {...register("nome")} />
@@ -114,23 +118,6 @@ export default function Pedidos() {
           <button type="submit">Salvar</button>
         </form>
       </Modal>
-
-      <div className="produto-list">
-        {/* Lista de clientes */}
-        {produto.map((produto) => (
-          <div
-            className="produto-item"
-            key={produto.id}
-            onClick={() => handleProdutoClick(produto)}
-          >
-            <img src={produto.foto} alt={produto.nome} />
-            <div className="produto-details">
-              <h3>{produto.nome}</h3>
-              <p>{produto.cnpj}</p>
-            </div>
-          </div>
-        ))}
-      </div>
     </>
   );
 }

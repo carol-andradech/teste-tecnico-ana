@@ -3,6 +3,7 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   margin: 20px;
+  width: 100vh;
 }
 
 .produto-item {
@@ -27,7 +28,6 @@
 
 .modal-details {
   display: flex;
-  width: 100vh;
 }
 
 .modal-detail-item {
