@@ -3,13 +3,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Importe o BrowserRouter como Router
-import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HeaderBar from "../../Components/Header/HeaderBar";
 import Pedidos from "../../Components/Pedidos/Pedidos";
 import Produtos from "../../assets/search-img.svg";
 import "./Clientes.css";
 import { useClient } from "../../Components/useLocalStorage";
+import axios from "axios";
 
 Modal.setAppElement("#root");
 
@@ -33,8 +33,32 @@ export default function Clientes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredClient, setFilteredClient] = useState(null);
 
-  // Utilize o hook useClient para gerenciar os clientes
   const { createClient, updateClient, deleteClient, clients } = useClient();
+
+  const handleCEPChange = async (cep) => {
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = response.data;
+      if (!data.erro) {
+        reset({
+          estado: data.uf,
+          cidade: data.localidade,
+          bairro: data.bairro,
+          endereco: data.logradouro,
+        });
+      } else {
+        console.error("CEP inválido");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar endereço:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (formData && formData.cep) {
+      handleCEPChange(formData.cep);
+    }
+  }, [formData]);
 
   const {
     register,
@@ -56,7 +80,7 @@ export default function Clientes() {
     const filtered = clients.filter((client) =>
       client.nome.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredClient(filtered.length ? filtered : null); // Set filteredClient to null if no results are found
+    setFilteredClient(filtered.length ? filtered : null);
   };
 
   const handleClientClick = (client) => {
@@ -67,12 +91,26 @@ export default function Clientes() {
   const onSubmit = (data) => {
     createClient(data);
     setNewClientModalOpen(false);
-    setFormData(null);
+    reset(); // Reset the form after submitting
   };
 
   const handleDeleteAllClients = () => {
     clients.forEach((client) => {
       deleteClient(client.id);
+    });
+  };
+
+  const handleNewClientModalClose = () => {
+    setNewClientModalOpen(false);
+    reset({
+      nome: "",
+      cnpj: "",
+      telefone: "",
+      estado: "",
+      cidade: "",
+      bairro: "",
+      endereco: "",
+      numero: "",
     });
   };
 
@@ -128,7 +166,7 @@ export default function Clientes() {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                handleFilterClients(); // Chame a função de filtro aqui
+                handleFilterClients();
               }}
             />
             <button className="image-button"></button>
@@ -143,7 +181,7 @@ export default function Clientes() {
 
         <Modal
           isOpen={newClientModalOpen}
-          onRequestClose={() => setNewClientModalOpen(false)}
+          onRequestClose={handleNewClientModalClose}
           overlayClassName="modal-overlay"
           className="modal-content"
         >
@@ -185,6 +223,7 @@ export default function Clientes() {
                 <input
                   type="text"
                   {...register("cep", { required: "CEP é obrigatório" })}
+                  onChange={(e) => handleCEPChange(e.target.value)}
                 />
                 {errors.cep && <span>{errors.cep.message}</span>}
               </div>
@@ -296,10 +335,7 @@ export default function Clientes() {
         )}
       </Modal>
 
-      <div className="clients-list">
-        {renderClientList()}{" "}
-        {/* Aqui está a chamada para a função renderClientList() */}
-      </div>
+      <div className="clients-list">{renderClientList()}</div>
     </div>
   );
 }

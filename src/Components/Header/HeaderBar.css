@@ -1,16 +1,25 @@
-header {
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-}
-
 .header-center {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
   padding: 10px;
 }
 
 a {
   text-decoration: none;
   color: #787879;
+}
+
+.span-header {
+  color: #787879;
+}
+
+img {
+  margin-right: 5px;
+}
+
+.active-link .span-header {
+  color: blue;
 }
