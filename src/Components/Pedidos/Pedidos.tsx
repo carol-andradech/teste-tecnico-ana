@@ -64,16 +64,15 @@ export default function Pedidos() {
     <>
       <div className="search">
         <div className="search-bar">
-          <form action="#">
+          <div className="div-input">
             <input
               type="text"
               placeholder="Pesquisar"
               className="search-input"
               onChange={handleSearchInputChange}
             />
-            <button></button>
-            <img src={searchImg} className="search-icon" alt="search" />
-          </form>
+            <button className="image-button"></button>
+          </div>
         </div>
         <button
           className="btn-search"

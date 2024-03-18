@@ -15,45 +15,41 @@
     color: #787879;
   }
 */
-.svg-img {
-  width: 15px;
-  height: 15px;
-  align-items: center;
-  justify-content: center;
-}
 
 .search {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   margin: 30px;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
 }
 
-.search-bar input {
-  width: 300px;
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.div-input {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: calc(
+    100% - 40px
+  ); /* Ajuste a largura do input para acomodar o botão */
   height: 40px;
   border-radius: 10px;
   border: #787879 1px solid;
-  position: relative;
+  padding-left: 20px;
 }
-.search.input {
-  padding-right: 30px;
-}
+
 input:focus {
   outline-color: #0b60b0;
   border-color: #0b60b0;
-}
-
-.search-icon {
-  position: absolute;
-  right: 10px; // Ajustado para 10px para posicionar corretamente
-  top: 50%; // Ajustado para 50% para centralizar verticalmente
-  transform: translateY(-50%); // Centralizar verticalmente
-  width: 20px;
-  height: 20px;
 }
 
 .btn-search {
@@ -160,4 +156,19 @@ input:focus {
   margin: 10px;
   border: none;
   border-top: 1px solid #ccc;
+}
+
+.image-button {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  width: 20px; /* Largura do botão */
+  height: 20px; /* Altura do botão */
+  background-image: url("../../assets/search-img.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  z-index: 1; /* Garante que o botão esteja na frente do input */
+  background-color: transparent;
 }

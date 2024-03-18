@@ -5,10 +5,9 @@ import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Importe o BrowserRouter como Router
 import ReactDOM from "react-dom";
-import searchImg from "../../assets/search-img.svg";
 import HeaderBar from "../../Components/Header/HeaderBar";
 import Pedidos from "../../Components/Pedidos/Pedidos";
-import Produtos from "../../Components/ProdutosProdutos";
+import Produtos from "../../assets/search-img.svg";
 import "./Clientes.css";
 import { useClient } from "../../Components/useLocalStorage";
 
@@ -121,7 +120,7 @@ export default function Clientes() {
       </button>
       <div className="search">
         <div className="search-bar">
-          <form action="">
+          <div className="div-input">
             <input
               type="text"
               placeholder="Pesquisar..."
@@ -132,10 +131,8 @@ export default function Clientes() {
                 handleFilterClients(); // Chame a função de filtro aqui
               }}
             />
-
-            <button></button>
-            <img src={searchImg} className="search-icon" alt="search" />
-          </form>
+            <button className="image-button"></button>
+          </div>
         </div>
         <button
           className="btn-search"

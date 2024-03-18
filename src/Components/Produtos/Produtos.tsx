@@ -88,7 +88,7 @@ export default function Produtos() {
     <div>
       <div className="search">
         <div className="search-bar">
-          <form>
+          <div className="div-input">
             <input
               type="text"
               placeholder="Pesquisar..."
@@ -96,9 +96,8 @@ export default function Produtos() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button type="submit"></button>
-            <img src={searchImg} className="search-icon" alt="search" />
-          </form>
+            <button className="image-button"></button>
+          </div>
         </div>
         <button
           className="btn-search"
