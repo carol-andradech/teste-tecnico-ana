@@ -3,7 +3,6 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   margin: 20px;
-  width: 100vh;
 }
 
 .produto-item {
@@ -34,6 +33,50 @@
   margin: 20px;
 }
 
+.modal-content {
+  width: 100vh;
+}
+
 .p-detail {
   font-weight: lighter;
+}
+
+.form-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-organizar {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.form-organizar label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-desc input {
+  width: 100vh;
+  height: 100px;
+}
+
+input {
+  width: 400px;
+  height: 40px;
+  border-radius: 10px;
+  border: #787879 1px solid;
+  margin: ;
+}
+
+input:focus {
+  outline-color: #0b60b0;
+  border-color: #0b60b0;
 }

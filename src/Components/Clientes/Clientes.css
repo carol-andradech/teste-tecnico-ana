@@ -42,6 +42,10 @@
 .search.input {
   padding-right: 30px;
 }
+input:focus {
+  outline-color: #0b60b0;
+  border-color: #0b60b0;
+}
 
 .search-icon {
   position: absolute;

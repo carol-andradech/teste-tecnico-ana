@@ -76,6 +76,7 @@ export default function Clientes() {
       deleteClient(client.id);
     });
   };
+
   const renderClientList = () => {
     if (searchTerm.trim() !== "") {
       return (
@@ -242,6 +243,7 @@ export default function Clientes() {
           </form>
         </Modal>
       </div>
+
       <Modal
         isOpen={clientDetailsModalOpen}
         onRequestClose={() => setClientDetailsModalOpen(false)}

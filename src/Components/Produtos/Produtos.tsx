@@ -11,7 +11,7 @@ Modal.setAppElement("#root");
 // Defina o esquema de validação para os campos do formulário
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório"),
-  preco: yup.number().required("Preço é obrigatório"),
+  preco: yup.string().required("Preço é obrigatório"),
   descricao: yup.string().required("Descrição é obrigatória"),
   imagem: yup.string().required("Imagem é obrigatória"),
 });
@@ -22,6 +22,7 @@ export default function Produtos() {
   const [newProductModalOpen, setNewProductModalOpen] = useState(false);
   const [produtoDetailsModalOpen, setProdutoDetailsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de pesquisa
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const { createProduto, deleteProduto, produto } = useProduto();
 
@@ -55,9 +56,26 @@ export default function Produtos() {
   };
 
   const onSubmit = (data) => {
+    if (selectedImage) {
+      data.imagem = selectedImage;
+    }
     createProduto(data);
     setNewProductModalOpen(false);
     reset();
+    setSelectedImage(null);
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setSelectedImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const filteredProdutos = produtos.filter((produto) =>
@@ -93,33 +111,46 @@ export default function Produtos() {
         overlayClassName="modal-overlay"
         className="modal-content"
       >
-        <h2>Adicionar Produto</h2>
+        <h2>Cadastrar Produto</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label>Nome</label>
-            <input type="text" {...register("nome")} />
-            {errors.nome && <span>{errors.nome.message}</span>}
-          </div>
+          <div className="form-info">
+            <div className="form-title">
+              <div className="form-nome form-organizar">
+                <label>Nome</label>
+                <input type="text" {...register("nome")} />
+                {errors.nome && <span>{errors.nome.message}</span>}
+              </div>
 
-          <div>
-            <label>Preço</label>
-            <input type="number" {...register("preco")} />
-            {errors.preco && <span>{errors.preco.message}</span>}
-          </div>
+              <div className="form-preco form-organizar">
+                <label>Preço</label>
+                <input type="text" {...register("preco")} />
+                {errors.preco && <span>{errors.preco.message}</span>}
+              </div>
+            </div>
+            <div className="form-desc form-organizar">
+              <label>Descrição</label>
+              <input type="text" {...register("descricao")} />
+              {errors.descricao && <span>{errors.descricao.message}</span>}
+            </div>
 
-          <div>
-            <label>Descrição</label>
-            <input type="text" {...register("descricao")} />
-            {errors.descricao && <span>{errors.descricao.message}</span>}
+            <div className="form-img form-organizar">
+              <label>Foto do Produto</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+              {selectedImage && (
+                <img
+                  src={selectedImage}
+                  alt="Preview"
+                  className="preview-image"
+                />
+              )}
+              {errors.imagem && <span>{errors.imagem.message}</span>}
+            </div>
           </div>
-
-          <div>
-            <label>Imagem</label>
-            <input type="text" {...register("imagem")} />
-            {errors.imagem && <span>{errors.imagem.message}</span>}
-          </div>
-
           <button type="submit">Salvar</button>
         </form>
       </Modal>
