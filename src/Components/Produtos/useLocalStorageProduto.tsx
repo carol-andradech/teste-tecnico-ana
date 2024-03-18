@@ -16,7 +16,12 @@ export function useProduto() {
   const [produto, setProduto] = useLocalStorageProduto("produto", []);
 
   const createProduto = (produtoInfo) => {
-    setProduto((prevProduto) => [...prevProduto, produtoInfo]);
+    // Verifica se a imagem é uma string em base64 antes de armazená-la
+    if (produtoInfo.imagem.startsWith("data:image")) {
+      setProduto((prevProduto) => [...prevProduto, produtoInfo]);
+    } else {
+      console.error("Imagem inválida.");
+    }
   };
 
   const deleteProduto = (productId) => {

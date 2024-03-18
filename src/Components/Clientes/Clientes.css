@@ -135,16 +135,9 @@ input:focus {
   height: 40px;
 }
 
-.btn-modal {
-  align-self: flex-end; /* Alinha o botão ao final do contêiner flex */
-  margin-left: auto; /* Move o botão para o canto direito */
-  width: 100px; /* Defina a largura do botão */
-  height: 40px; /* Defina a altura do botão */
-  background-color: #0b60b0; /* Cor de fundo do botão */
-  border: none; /* Remove a borda do botão */
-  border-radius: 10px; /* Adiciona borda arredondada ao botão */
-  color: white; /* Cor do texto do botão */
-  padding: 10px; /* Adiciona preenchimento interno ao botão */
+.btn-salvar {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .client-info {
@@ -161,4 +154,10 @@ input:focus {
 .client-info span {
   color: gray;
   font-weight: lighter;
+}
+
+.custom-hr {
+  margin: 10px;
+  border: none;
+  border-top: 1px solid #ccc;
 }

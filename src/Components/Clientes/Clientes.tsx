@@ -151,7 +151,7 @@ export default function Clientes() {
           className="modal-content"
         >
           <h2>Cadastrar Cliente</h2>
-
+          <hr className="custom-hr" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-modal">
               <div className="items-modal">
@@ -236,10 +236,12 @@ export default function Clientes() {
                 {errors.numero && <span>{errors.numero.message}</span>}
               </div>
             </div>
-
-            <button className="btn-modal" type="submit">
-              Salvar
-            </button>
+            <hr className="custom-hr" />
+            <div className="btn-salvar">
+              <button className="btn-modal" type="submit">
+                Salvar
+              </button>
+            </div>
           </form>
         </Modal>
       </div>

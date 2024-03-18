@@ -13,7 +13,7 @@ const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório"),
   preco: yup.string().required("Preço é obrigatório"),
   descricao: yup.string().required("Descrição é obrigatória"),
-  imagem: yup.string().required("Imagem é obrigatória"),
+  imagem: yup.string().notRequired(), // Torna a imagem opcional
 });
 
 export default function Produtos() {
@@ -58,6 +58,8 @@ export default function Produtos() {
   const onSubmit = (data) => {
     if (selectedImage) {
       data.imagem = selectedImage;
+    } else {
+      delete data.imagem; // Remove o campo imagem se não houver imagem selecionada
     }
     createProduto(data);
     setNewProductModalOpen(false);
@@ -112,7 +114,7 @@ export default function Produtos() {
         className="modal-content"
       >
         <h2>Cadastrar Produto</h2>
-
+        <hr className="custom-hr" />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-info">
             <div className="form-title">
@@ -146,8 +148,10 @@ export default function Produtos() {
                   src={selectedImage}
                   alt="Preview"
                   className="preview-image"
+                  style={{ maxWidth: "200px", maxHeight: "200px" }} // Definindo um tamanho máximo
                 />
               )}
+
               {errors.imagem && <span>{errors.imagem.message}</span>}
             </div>
           </div>
@@ -163,26 +167,13 @@ export default function Produtos() {
         {selectedProduto && (
           <>
             <h2>Detalhes do Produto</h2>
-            <hr></hr>
+            <hr className="custom-hr" />
             <div className="modal-details">
-              <img src="src\assets\empty.jpg" alt="" />
+              <img src={selectedProduto.imagem} alt="" />
               <div className="modal-detail-item">
                 <h2>{selectedProduto.nome}</h2>
-                <p>Preço: R$ {selectedProduto.preco}</p>
-                <p className="p-detail">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  et pulvinar nibh. Proin dictum lectus sed ligula rhoncus, vel
-                  tincidunt nisl tempus. In pulvinar auctor erat, a rhoncus mi
-                  viverra eu. Nullam et sagittis dui, eu euismod est. Vestibulum
-                  sem quam, viverra eget lacus sed, maximus ullamcorper nisi.
-                  Vestibulum ante ipsum primis in faucibus orci luctus et
-                  ultrices posuere cubilia curae; Donec justo elit, hendrerit
-                  sit amet quam id, feugiat placerat diam. Pellentesque quis
-                  suscipit massa. Sed libero metus, feugiat a dolor sed, iaculis
-                  pellentesque felis. Proin dignissim vulputate elit eget
-                  sodales. Nulla facilisi. Proin urna libero, dictum maximus
-                  ligula a, vulputate consequat arcu.
-                </p>
+                <p>R$ {selectedProduto.preco}</p>
+                <p className="p-detail">{selectedProduto.descricao}</p>
               </div>
             </div>
           </>
@@ -196,7 +187,7 @@ export default function Produtos() {
             className="produto-item"
             onClick={() => handleProdutoClick(produto)}
           >
-            <img src="src\assets\empty.jpg" alt="" />
+            <img src={produto.imagem} alt="" className="produto-img" />
             <div className="produto-detail">
               <p>{produto.nome}</p>
               <p className="preco">R$ {produto.preco}</p>
