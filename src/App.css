@@ -55,7 +55,7 @@
 .btn-search {
   width: 150px;
   height: 40px;
-  background-color: #0b60b0;
+  background-color: #008dda;
   border: none;
   border-radius: 10px;
   color: white;
@@ -136,7 +136,7 @@
   margin-left: auto; /* Move o botão para o canto direito */
   width: 100px; /* Defina a largura do botão */
   height: 40px; /* Defina a altura do botão */
-  background-color: #0b60b0; /* Cor de fundo do botão */
+  background-color: #008dda; /* Cor de fundo do botão */
   border: none; /* Remove a borda do botão */
   border-radius: 10px; /* Adiciona borda arredondada ao botão */
   color: white; /* Cor do texto do botão */

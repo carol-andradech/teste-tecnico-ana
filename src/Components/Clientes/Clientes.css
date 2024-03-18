@@ -48,14 +48,14 @@
 }
 
 input:focus {
-  outline-color: #0b60b0;
-  border-color: #0b60b0;
+  outline-color: #008dda;
+  border-color: #008dda;
 }
 
 .btn-search {
   width: 150px;
   height: 40px;
-  background-color: #0b60b0;
+  background-color: #008dda;
   border: none;
   border-radius: 10px;
   color: white;

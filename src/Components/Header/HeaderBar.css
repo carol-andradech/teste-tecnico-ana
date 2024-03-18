@@ -14,6 +14,7 @@ a {
 
 .span-header {
   color: #787879;
+  font-weight: normal;
 }
 
 img {
@@ -21,5 +22,6 @@ img {
 }
 
 .active-link .span-header {
-  color: blue;
+  color: #008dda;
+  font-weight: bold;
 }

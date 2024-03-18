@@ -86,8 +86,8 @@ input {
 }
 
 input:focus {
-  outline-color: #0b60b0;
-  border-color: #0b60b0;
+  outline-color: #008dda;
+  border-color: #008dda;
 }
 
 .produto-img {
@@ -111,7 +111,7 @@ input:focus {
 .upload-button {
   width: 250px;
   height: 40px;
-  background-color: #0b60b0;
+  background-color: #008dda;
   color: white;
   border-radius: 10px;
 }
