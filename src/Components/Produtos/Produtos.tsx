@@ -136,25 +136,44 @@ export default function Produtos() {
             </div>
 
             <div className="form-img form-organizar">
-              <label>Foto do Produto</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
-              {selectedImage && (
-                <img
-                  src={selectedImage}
-                  alt="Preview"
-                  className="preview-image"
-                  style={{ maxWidth: "200px", maxHeight: "200px" }} // Definindo um tamanho máximo
+              <label htmlFor="upload-button">Foto do Produto</label>
+              <div className="form-img-center">
+                <input
+                  type="file"
+                  id="upload-button"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ display: "none" }} // ocultando o input file
                 />
-              )}
+                <button
+                  onClick={() =>
+                    document.getElementById("upload-button").click()
+                  } // simulando o clique no input file ao clicar no botão
+                  className="upload-button"
+                >
+                  Faça o upload da foto
+                </button>
+                <span>JPG e PNG, somente</span>
 
-              {errors.imagem && <span>{errors.imagem.message}</span>}
+                {selectedImage && (
+                  <img
+                    src={selectedImage}
+                    alt="Preview"
+                    className="preview-image"
+                    style={{ maxWidth: "200px", maxHeight: "200px" }} // Definindo um tamanho máximo
+                  />
+                )}
+
+                {errors.imagem && <span>{errors.imagem.message}</span>}
+              </div>
             </div>
           </div>
-          <button type="submit">Salvar</button>
+          <hr className="custom-hr" />
+          <div className="btn-salvar">
+            <button className="btn-modal" type="submit">
+              Salvar
+            </button>
+          </div>
         </form>
       </Modal>
       <Modal

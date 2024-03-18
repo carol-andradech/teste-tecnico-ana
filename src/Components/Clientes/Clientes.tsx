@@ -252,7 +252,8 @@ export default function Clientes() {
         {selectedClient && (
           <>
             <h2>{selectedClient.nome}</h2>
-            <hr />
+
+            <hr className="custom-hr" />
             <div className="client-info">
               <div>
                 <p>Nome</p>
