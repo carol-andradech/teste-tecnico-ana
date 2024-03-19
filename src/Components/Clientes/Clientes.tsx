@@ -106,6 +106,7 @@ export default function Clientes() {
       nome: "",
       cnpj: "",
       telefone: "",
+      cep: "",
       estado: "",
       cidade: "",
       bairro: "",

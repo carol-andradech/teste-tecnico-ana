@@ -55,6 +55,12 @@ export default function Produtos() {
     setProdutoDetailsModalOpen(true);
   };
 
+  const handleDeleteAllProdutos = () => {
+    produto.forEach((produto) => {
+      deleteProduto(produto.id);
+    });
+  };
+
   const onSubmit = (data) => {
     if (selectedImage) {
       data.imagem = selectedImage;
@@ -86,6 +92,9 @@ export default function Produtos() {
 
   return (
     <div>
+      <button onClick={handleDeleteAllProdutos}>
+        Deletar Todos os Produtos
+      </button>
       <div className="search">
         <div className="search-bar">
           <div className="div-input">

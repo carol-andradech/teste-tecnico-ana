@@ -82,7 +82,7 @@ input {
   width: 400px;
   height: 40px;
   border-radius: 10px;
-  border: #787879 1px solid;
+  border: #9c9ea3 1px solid;
 }
 
 input:focus {
@@ -117,7 +117,7 @@ input:focus {
 }
 
 .form-img-center {
-  border: 3px #787879 dashed;
+  border: 3px #9c9ea3 dashed;
   padding: 60px;
   display: flex;
   flex-direction: column;
@@ -126,7 +126,7 @@ input:focus {
 }
 
 .form-img-center span {
-  color: #787879;
+  color: #9c9ea3;
   margin-top: 10px;
   margin-bottom: 30px;
 }
@@ -134,5 +134,4 @@ input:focus {
 span {
   margin-top: 5px;
   color: red;
-  font-weight: lighter;
 }

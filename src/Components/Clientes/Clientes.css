@@ -43,7 +43,7 @@
   ); /* Ajuste a largura do input para acomodar o botão */
   height: 40px;
   border-radius: 10px;
-  border: #787879 1px solid;
+  border: #9c9ea3 1px solid;
   padding-left: 20px;
 }
 
@@ -122,10 +122,11 @@ input:focus {
 
 .items-modal label {
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .items-modal input {
-  border: #787879 1px solid;
+  border: #9c9ea3 1px solid;
   border-radius: 10px;
   width: 300px;
   height: 40px;
@@ -148,8 +149,7 @@ input:focus {
 }
 
 .client-info span {
-  color: gray;
-  font-weight: lighter;
+  color: #9c9ea3;
 }
 
 .custom-hr {
