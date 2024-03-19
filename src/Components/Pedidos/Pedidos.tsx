@@ -9,6 +9,7 @@ import { usePedido } from "../Pedidos/useLocalStoragePedido";
 import searchImg from "../../assets/search-img.svg";
 import "../Pedidos/Pedidos.css";
 import { useClient } from "../useLocalStorage";
+import { useProduto } from "../Produtos/useLocalStorageProduto";
 Modal.setAppElement("#root");
 
 const schema = yup.object().shape({
@@ -16,15 +17,18 @@ const schema = yup.object().shape({
   preco: yup.number().required("Preço é obrigatório"),
   descricao: yup.string().required("Descrição é obrigatória"),
 });
-
 export default function Pedidos() {
   const [pedidos, setPedidos] = useState([]);
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [newPedidoModalOpen, setNewPedidoModalOpen] = useState(false);
   const [pedidoDetailsModalOpen, setPedidoDetailsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [quantidade, setQuantidade] = useState(0); // Estado para a quantidade de produtos no pedido
   const { createPedido, deletePedido, pedido } = usePedido();
+  const { produto } = useProduto();
+  const { clients } = useClient();
+  const [selectedClient, setSelectedClient] = useState(null);
+
   const {
     register,
     handleSubmit,
@@ -40,8 +44,8 @@ export default function Pedidos() {
   };
 
   const handleDeleteAllPedidos = () => {
-    clients.forEach((pedido) => {
-      deleteClient(pedido.id);
+    pedidos.forEach((pedido) => {
+      deletePedido(pedido.id);
     });
   };
 
@@ -51,31 +55,40 @@ export default function Pedidos() {
     reset();
   };
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5173/pedidos")
-      .then((response) => {
-        setPedidos(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro ao obter pedidos:", error);
-      });
-  }, []);
-
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  const [showMenu, setShowMenu] = useState(false); // Estado para controlar se o menu está visível ou não
-  const { clients } = useClient(); // Obtenha a lista de clientes usando a função useClient
 
-  const [selectedClient, setSelectedClient] = useState(null); // Estado para armazenar o cliente selecionado
-
-  // Função para lidar com a seleção de um cliente
   const handleClientSelect = (client) => {
     setSelectedClient(client);
-    // Aqui você pode adicionar a lógica para lidar com a seleção do cliente, como enviar dados para outros componentes ou realizar outras ações.
   };
 
+  const handleAddToPedido = (productId) => {
+    console.log("Produto adicionado ao pedido:", productId);
+    setQuantidade(quantidade + 1);
+  };
+
+  const handleRemoveFromPedido = (productId) => {
+    console.log("Produto removido do pedido:", productId);
+    if (quantidade > 0) {
+      setQuantidade(quantidade - 1);
+    }
+  };
+
+  const handleFormSubmit = (data) => {
+    // Lógica para lidar com o envio do formulário
+    onSubmitNewPedido(data);
+  };
+
+  const handleAddClick = () => {
+    setQuantidade(quantidade + 1);
+  };
+
+  const handleRemoveClick = () => {
+    if (quantidade > 0) {
+      setQuantidade(quantidade - 1);
+    }
+  };
   return (
     <>
       <button onClick={handleDeleteAllPedidos}>Deletar Todos os Pedidos</button>
@@ -105,36 +118,48 @@ export default function Pedidos() {
         className="modal-content"
       >
         <h2>Cadastro do Pedido</h2>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
+          <div className="dropdown">
+            <select
+              name="cliente"
+              className="dropdown-menu"
+              onChange={(e) => handleClientSelect(clients[e.target.value])}
+            >
+              <option value="">Escolha um cliente</option>
+              {clients.map((client, index) => (
+                <option key={index} value={index}>
+                  {client.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="search-produtos">
+            <input
+              type="text"
+              placeholder="Pesquisar produtos"
+              className="input-cadastro"
+              value={searchTerm}
+              onChange={handleSearchInputChange}
+            />
+          </div>
 
-        <form onSubmit={handleSubmit(onSubmitNewPedido)}>
-          <div className="dropdown-content">
-            <label>Cliente</label>
-            {clients.map((client) => (
-              <a
-                href="#"
-                key={client.id}
-                onClick={() => handleClientSelect(client)}
-              >
-                {client.nome}
-              </a>
+          <div className="produto-list-pedido">
+            {produto.map((produto) => (
+              <div className="produto-item-pedido" key={produto.id}>
+                <img src={produto.imagem} alt={produto.nome} />
+                <div className="produto-details-pedido">
+                  <h3>{produto.nome}</h3>
+                  <p>Preço: R${produto.preco}</p>
+                  <div className="produto-actions-pedido">
+                    <button onClick={handleAddClick}>+ Adicionar</button>
+                    <span>{quantidade}</span>
+                    <button onClick={handleRemoveClick}>- Remover</button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-          <div>
-            <label>Preço</label>
-            <input type="number" {...register("preco")} />
-            {errors.preco && <span>{errors.preco.message}</span>}
-          </div>
-          <div>
-            <label>Descrição</label>
-            <input type="text" {...register("descricao")} />
-            {errors.descricao && <span>{errors.descricao.message}</span>}
-          </div>
-          <div className="dropdown">
-            <button className="dropbtn">
-              {selectedClient ? selectedClient.nome : "Escolha um cliente"}{" "}
-              {/* Mostra o nome do cliente selecionado, ou "Escolha um cliente" se nenhum cliente estiver selecionado */}
-            </button>
-          </div>
+
           <button type="submit">Salvar</button>
         </form>
       </Modal>
