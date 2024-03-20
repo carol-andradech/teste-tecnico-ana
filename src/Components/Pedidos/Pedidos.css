@@ -56,3 +56,41 @@
   height: 50px; /* Altura da imagem */
   margin-right: 10px; /* Espaçamento à direita da imagem */
 }
+
+.pedidos-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px;
+  width: 80%;
+}
+
+.pedido-item {
+  background-color: white;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.pedido-item img {
+  height: 80px;
+  width: 80px;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.pedido-right {
+  margin-left: auto;
+  margin-right: 30px;
+}
+
+.pedido-left span {
+  color: #9c9ea3;
+}
+
+.pedido-right span {
+  color: black;
+  font-weight: bold;
+}
