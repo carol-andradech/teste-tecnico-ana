@@ -59,7 +59,12 @@ export default function Pedidos() {
     setTotalPreco(0);
   };
 
-  const handleSavePedido = () => {
+  const handleSavePedido = (event) => {
+    event.preventDefault(); // Previne a submissão padrão do formulário
+
+    console.log("selectedClient:", selectedClient);
+    console.log("currentPedido:", currentPedido);
+
     if (selectedClient && currentPedido.length > 0) {
       const novoPedido = {
         cliente: selectedClient.nome,
@@ -74,16 +79,15 @@ export default function Pedidos() {
         produtos: currentPedido,
       };
 
-      setPedidos([...pedidos, novoPedido]);
+      setPedidos((prevPedidos) => [...prevPedidos, novoPedido]);
       setNewPedidoModalOpen(false);
       reset();
       setSelectedClient(null);
       setSearchTerm("");
-      setCurrentPedido([]); // Limpa os produtos temporários
+      setCurrentPedido([]);
       setTotalProdutos(0);
       setTotalPreco(0);
 
-      // Salvar pedidos no localStorage
       localStorage.setItem("pedidos", JSON.stringify([...pedidos, novoPedido]));
     } else {
       console.log(
@@ -91,20 +95,6 @@ export default function Pedidos() {
       );
     }
   };
-
-  useEffect(() => {
-    // Atualiza o total de produtos e preço sempre que houver mudanças em tempProdutos
-    const totalQuantidade = tempProdutos.reduce(
-      (acc, tempProduto) => acc + tempProduto.quantidade,
-      0
-    );
-    const totalValor = tempProdutos.reduce(
-      (acc, tempProduto) => acc + tempProduto.total,
-      0
-    );
-    setTotalProdutos(totalQuantidade);
-    setTotalPreco(totalValor);
-  }, [tempProdutos]);
 
   const handleAddToPedido = (produto) => {
     if (selectedClient && produto) {
@@ -173,13 +163,22 @@ export default function Pedidos() {
       }
     }
   };
+  useEffect(() => {
+    // Atualiza o total de produtos e preço sempre que houver mudanças em tempProdutos
+    const totalQuantidade = tempProdutos.reduce(
+      (acc, tempProduto) => acc + tempProduto.quantidade,
+      0
+    );
+    const totalValor = tempProdutos.reduce(
+      (acc, tempProduto) => acc + tempProduto.total,
+      0
+    );
+    setTotalProdutos(totalQuantidade);
+    setTotalPreco(totalValor);
+  }, [tempProdutos]); // Adicionando tempProdutos como dependência
 
   const handleClientSelect = (client) => {
     setSelectedClient(client);
-    // Não limpe os pedidos temporários ao selecionar um cliente
-    // setPedidos([]);
-    // setTotalProdutos(0);
-    // setTotalPreco(0);
   };
 
   const handleSearchInputChange = (event) => {
@@ -258,15 +257,23 @@ export default function Pedidos() {
                         +
                       </button>
                       <span>
-                        {produto &&
-                        tempProdutos.find(
+                        {currentPedido &&
+                        currentPedido.find(
                           (tempProduto) => tempProduto.nome === produto.nome
                         )
-                          ? tempProdutos.find(
+                          ? (console.log(
+                              "Produto encontrado:",
+                              currentPedido.find(
+                                (tempProduto) =>
+                                  tempProduto.nome === produto.nome
+                              )
+                            ),
+                            currentPedido.find(
                               (tempProduto) => tempProduto.nome === produto.nome
-                            ).quantidade
+                            ).quantidade)
                           : 0}
                       </span>
+
                       <button
                         type="button"
                         onClick={() => handleRemoveFromPedido(produto)}
@@ -288,7 +295,7 @@ export default function Pedidos() {
             </p>
             <p>
               Quantidade de Produtos:{" "}
-              {tempProdutos.reduce(
+              {currentPedido.reduce(
                 (acc, tempProduto) => acc + tempProduto.quantidade,
                 0
               )}
@@ -296,7 +303,9 @@ export default function Pedidos() {
 
             <p>Valor Total do Pedido: R${totalPreco}</p>
           </div>
-          <button onClick={handleSavePedido}>Salvar Pedido</button>
+          <button onClick={(event) => handleSavePedido(event)}>
+            Salvar Pedido
+          </button>
         </form>
       </Modal>
 
