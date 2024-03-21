@@ -213,6 +213,7 @@ export default function Pedidos() {
         className="modal-content"
       >
         <h2>Cadastro do Pedido</h2>
+        <hr className="custom-hr" />
         <form>
           <div className="dropdown">
             <select
@@ -248,9 +249,10 @@ export default function Pedidos() {
                   <img src={produto.imagem} alt={produto.nome} />
                   <div className="produto-details-pedido">
                     <h3>{produto.nome}</h3>
-                    <p>Preço: R${produto.preco}</p>
+
                     <div className="produto-actions-pedido">
                       <button
+                        className="btn-valor"
                         type="button"
                         onClick={() => handleAddToPedido(produto)}
                       >
@@ -275,37 +277,42 @@ export default function Pedidos() {
                       </span>
 
                       <button
+                        className="btn-valor"
                         type="button"
                         onClick={() => handleRemoveFromPedido(produto)}
                       >
                         -
                       </button>
                     </div>
+                    <div>
+                      <p>R${produto.preco}</p>
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
-          <div>
-            <p>
-              Nome do Cliente:{" "}
-              {selectedClient
-                ? selectedClient.nome
-                : "Nenhum cliente selecionado"}
+          <hr className="custom-hr" />
+          <div className="info-form">
+            <p className="form-total">
+              Total: <span>R${totalPreco}</span>
             </p>
-            <p>
+            <p className="form-total">
               Quantidade de Produtos:{" "}
-              {currentPedido.reduce(
-                (acc, tempProduto) => acc + tempProduto.quantidade,
-                0
-              )}
+              <span>
+                {currentPedido.reduce(
+                  (acc, tempProduto) => acc + tempProduto.quantidade,
+                  0
+                )}
+              </span>
             </p>
-
-            <p>Valor Total do Pedido: R${totalPreco}</p>
+            <button
+              className="btn-salvar"
+              onClick={(event) => handleSavePedido(event)}
+            >
+              Salvar Pedido
+            </button>
           </div>
-          <button onClick={(event) => handleSavePedido(event)}>
-            Salvar Pedido
-          </button>
         </form>
       </Modal>
 
