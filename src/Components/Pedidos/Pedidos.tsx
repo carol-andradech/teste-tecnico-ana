@@ -35,6 +35,7 @@ export default function Pedidos() {
   const [totalPreco, setTotalPreco] = useState(0);
   const { clients } = useClient();
   const { produto } = useProduto();
+  const [tempProdutos, setTempProdutos] = useState([]);
   const {
     register,
     handleSubmit,
@@ -71,27 +72,28 @@ export default function Pedidos() {
   const handleAddToPedido = (produto) => {
     if (selectedClient && produto) {
       const preco = parseFloat(produto.preco.replace(",", "."));
-      const existingPedidoIndex = pedidos.findIndex(
-        (pedido) => pedido.nome === produto.nome
+      const existingPedidoIndex = tempProdutos.findIndex(
+        (tempProduto) => tempProduto.nome === produto.nome
       );
+
       if (existingPedidoIndex !== -1) {
-        const updatedPedidos = [...pedidos];
-        updatedPedidos[existingPedidoIndex] = {
-          ...updatedPedidos[existingPedidoIndex],
-          quantidade: updatedPedidos[existingPedidoIndex].quantidade + 1,
-          total: updatedPedidos[existingPedidoIndex].total + preco,
+        const updatedTempProdutos = [...tempProdutos];
+        updatedTempProdutos[existingPedidoIndex] = {
+          ...updatedTempProdutos[existingPedidoIndex],
+          quantidade: updatedTempProdutos[existingPedidoIndex].quantidade + 1,
+          total: updatedTempProdutos[existingPedidoIndex].total + preco,
         };
-        setPedidos(updatedPedidos);
+        setTempProdutos(updatedTempProdutos);
       } else {
-        const novoPedido = {
+        const novoTempPedido = {
           nome: produto.nome,
           quantidade: 1,
           preco: preco,
           total: preco,
         };
-        setPedidos([...pedidos, novoPedido]);
+        setTempProdutos([...tempProdutos, novoTempPedido]);
       }
-      setTotalProdutos(totalProdutos + 1);
+      setTotalProdutos(totalProdutos + 1); // Atualiza o total de produtos global
       setTotalPreco(totalPreco + preco);
     }
   };
@@ -99,22 +101,23 @@ export default function Pedidos() {
   const handleRemoveFromPedido = (produto) => {
     if (produto) {
       const preco = parseFloat(produto.preco.replace(",", "."));
-      const existingPedidoIndex = pedidos.findIndex(
-        (pedido) => pedido.nome === produto.nome
+      const existingPedidoIndex = tempProdutos.findIndex(
+        (tempProduto) => tempProduto.nome === produto.nome
       );
+
       if (existingPedidoIndex !== -1) {
-        const updatedPedidos = [...pedidos];
-        if (updatedPedidos[existingPedidoIndex].quantidade > 1) {
-          updatedPedidos[existingPedidoIndex] = {
-            ...updatedPedidos[existingPedidoIndex],
-            quantidade: updatedPedidos[existingPedidoIndex].quantidade - 1,
-            total: updatedPedidos[existingPedidoIndex].total - preco,
+        const updatedTempProdutos = [...tempProdutos];
+        if (updatedTempProdutos[existingPedidoIndex].quantidade > 1) {
+          updatedTempProdutos[existingPedidoIndex] = {
+            ...updatedTempProdutos[existingPedidoIndex],
+            quantidade: updatedTempProdutos[existingPedidoIndex].quantidade - 1,
+            total: updatedTempProdutos[existingPedidoIndex].total - preco,
           };
         } else {
-          updatedPedidos.splice(existingPedidoIndex, 1);
+          updatedTempProdutos.splice(existingPedidoIndex, 1);
         }
-        setPedidos(updatedPedidos);
-        setTotalProdutos(totalProdutos - 1);
+        setTempProdutos(updatedTempProdutos);
+        setTotalProdutos(totalProdutos - 1); // Atualiza o total de produtos global
         setTotalPreco(totalPreco - preco);
       }
     }
@@ -202,7 +205,16 @@ export default function Pedidos() {
                       >
                         +
                       </button>
-                      <span>{quantidade}</span>
+                      <span>
+                        {produto &&
+                        tempProdutos.find(
+                          (tempProduto) => tempProduto.nome === produto.nome
+                        )
+                          ? tempProdutos.find(
+                              (tempProduto) => tempProduto.nome === produto.nome
+                            ).quantidade
+                          : 0}
+                      </span>
                       <button
                         type="button"
                         onClick={() => handleRemoveFromPedido(produto)}
@@ -224,8 +236,12 @@ export default function Pedidos() {
             </p>
             <p>
               Quantidade de Produtos:{" "}
-              {pedidos.reduce((acc, pedido) => acc + pedido.quantidade, 0)}
+              {tempProdutos.reduce(
+                (acc, tempProduto) => acc + tempProduto.quantidade,
+                0
+              )}
             </p>
+
             <p>Valor Total do Pedido: R${totalPreco}</p>
           </div>
           <button type="submit">Salvar</button>

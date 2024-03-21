@@ -91,7 +91,7 @@ export default function Clientes() {
   const onSubmit = (data) => {
     createClient(data);
     setNewClientModalOpen(false);
-    reset(); // Reset the form after submitting
+    reset();
   };
 
   const handleDeleteAllClients = () => {
