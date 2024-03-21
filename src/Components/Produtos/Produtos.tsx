@@ -92,9 +92,10 @@ export default function Produtos() {
 
   return (
     <div>
-      <button onClick={handleDeleteAllProdutos}>
+      {/*<button onClick={handleDeleteAllProdutos}>
         Deletar Todos os Produtos
-      </button>
+      </button>*/}
+
       <div className="search">
         <div className="search-bar">
           <div className="div-input">

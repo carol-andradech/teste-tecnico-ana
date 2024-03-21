@@ -1,3 +1,20 @@
+.btn-search {
+  width: 150px;
+  height: 40px;
+  background-color: #008dda;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.btn-search:hover {
+  background-color: white;
+  border: 2px #008dda solid;
+  color: #008dda;
+}
+
 .produto-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

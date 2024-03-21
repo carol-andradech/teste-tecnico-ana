@@ -154,9 +154,9 @@ export default function Clientes() {
 
   return (
     <div>
-      <button onClick={handleDeleteAllClients}>
+      {/* <button onClick={handleDeleteAllClients}>
         Deletar Todos os Clientes
-      </button>
+  </button> */}
       <div className="search">
         <div className="search-bar">
           <div className="div-input">

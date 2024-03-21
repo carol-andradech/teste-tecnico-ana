@@ -186,6 +186,9 @@ export default function Pedidos() {
   };
   return (
     <>
+      {/* 
+<button onClick={handleDeleteAllPedidos}>Deletar Todos os Pedidos</button>
+*/}
       <button onClick={handleDeleteAllPedidos}>Deletar Todos os Pedidos</button>
       <div className="search">
         <div className="search-bar">
@@ -254,9 +257,9 @@ export default function Pedidos() {
                       <button
                         className="btn-valor"
                         type="button"
-                        onClick={() => handleAddToPedido(produto)}
+                        onClick={() => handleRemoveFromPedido(produto)}
                       >
-                        +
+                        -
                       </button>
                       <span>
                         {currentPedido &&
@@ -275,17 +278,14 @@ export default function Pedidos() {
                             ).quantidade)
                           : 0}
                       </span>
-
                       <button
                         className="btn-valor"
                         type="button"
-                        onClick={() => handleRemoveFromPedido(produto)}
+                        onClick={() => handleAddToPedido(produto)}
                       >
-                        -
+                        +
                       </button>
-                    </div>
-                    <div>
-                      <p>R${produto.preco}</p>
+                      <span className="cadastro-valor">R$ {produto.preco}</span>
                     </div>
                   </div>
                 </div>
