@@ -46,6 +46,13 @@ export default function Pedidos() {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    const savedPedidos = localStorage.getItem("pedidos");
+    if (savedPedidos) {
+      setPedidos(JSON.parse(savedPedidos));
+    }
+  }, []);
+
   const handleDeleteAllPedidos = () => {
     setPedidos([]);
     setTotalProdutos(0);
@@ -75,6 +82,9 @@ export default function Pedidos() {
       setCurrentPedido([]); // Limpa os produtos temporários
       setTotalProdutos(0);
       setTotalPreco(0);
+
+      // Salvar pedidos no localStorage
+      localStorage.setItem("pedidos", JSON.stringify([...pedidos, novoPedido]));
     } else {
       console.log(
         "Erro: cliente não selecionado ou nenhum produto adicionado ao pedido."
