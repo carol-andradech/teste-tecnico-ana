@@ -36,6 +36,7 @@ export default function Pedidos() {
   const { clients } = useClient();
   const { produto } = useProduto();
   const [tempProdutos, setTempProdutos] = useState([]);
+  const [currentPedido, setCurrentPedido] = useState([]);
   const {
     register,
     handleSubmit,
@@ -52,26 +53,26 @@ export default function Pedidos() {
   };
 
   const handleSavePedido = () => {
-    if (selectedClient && tempProdutos.length > 0) {
+    if (selectedClient && currentPedido.length > 0) {
       const novoPedido = {
         cliente: selectedClient.nome,
-        quantidade: tempProdutos.reduce(
+        quantidade: currentPedido.reduce(
           (acc, tempProduto) => acc + tempProduto.quantidade,
           0
         ),
-        total: tempProdutos.reduce(
+        total: currentPedido.reduce(
           (acc, tempProduto) => acc + tempProduto.total,
           0
         ),
-        produtos: tempProdutos,
+        produtos: currentPedido,
       };
 
-      setPedidos([...pedidos, novoPedido]); // Adiciona o novo pedido ao array existente
+      setPedidos([...pedidos, novoPedido]);
       setNewPedidoModalOpen(false);
       reset();
       setSelectedClient(null);
       setSearchTerm("");
-      setTempProdutos([]); // Limpa os produtos temporários
+      setCurrentPedido([]); // Limpa os produtos temporários
       setTotalProdutos(0);
       setTotalPreco(0);
     } else {
@@ -81,15 +82,29 @@ export default function Pedidos() {
     }
   };
 
+  useEffect(() => {
+    // Atualiza o total de produtos e preço sempre que houver mudanças em tempProdutos
+    const totalQuantidade = tempProdutos.reduce(
+      (acc, tempProduto) => acc + tempProduto.quantidade,
+      0
+    );
+    const totalValor = tempProdutos.reduce(
+      (acc, tempProduto) => acc + tempProduto.total,
+      0
+    );
+    setTotalProdutos(totalQuantidade);
+    setTotalPreco(totalValor);
+  }, [tempProdutos]);
+
   const handleAddToPedido = (produto) => {
     if (selectedClient && produto) {
       const preco = parseFloat(produto.preco.replace(",", "."));
-      const existingProduto = tempProdutos.find(
+      const existingProduto = currentPedido.find(
         (tempProduto) => tempProduto.nome === produto.nome
       );
 
       if (existingProduto) {
-        const updatedTempProdutos = tempProdutos.map((tempProduto) => {
+        const updatedCurrentPedido = currentPedido.map((tempProduto) => {
           if (tempProduto.nome === produto.nome) {
             return {
               ...tempProduto,
@@ -99,7 +114,7 @@ export default function Pedidos() {
           }
           return tempProduto;
         });
-        setTempProdutos(updatedTempProdutos);
+        setCurrentPedido(updatedCurrentPedido);
       } else {
         const novoTempProduto = {
           nome: produto.nome,
@@ -107,7 +122,7 @@ export default function Pedidos() {
           preco: preco,
           total: preco,
         };
-        setTempProdutos([...tempProdutos, novoTempProduto]);
+        setCurrentPedido([...currentPedido, novoTempProduto]);
       }
       setTotalProdutos(totalProdutos + 1);
       setTotalPreco(totalPreco + preco);
@@ -117,31 +132,31 @@ export default function Pedidos() {
   const handleRemoveFromPedido = (produto) => {
     if (produto) {
       const preco = parseFloat(produto.preco.replace(",", "."));
-      const existingProdutoIndex = tempProdutos.findIndex(
+      const existingProdutoIndex = currentPedido.findIndex(
         (tempProduto) => tempProduto.nome === produto.nome
       );
 
       if (existingProdutoIndex !== -1) {
-        const existingProduto = tempProdutos[existingProdutoIndex];
+        const existingProduto = currentPedido[existingProdutoIndex];
 
         if (existingProduto.quantidade > 1) {
-          const updatedTempProdutos = [...tempProdutos];
-          updatedTempProdutos[existingProdutoIndex] = {
+          const updatedCurrentPedido = [...currentPedido];
+          updatedCurrentPedido[existingProdutoIndex] = {
             ...existingProduto,
             quantidade: existingProduto.quantidade - 1,
             total: existingProduto.total - preco,
           };
 
-          setTempProdutos(updatedTempProdutos);
+          setCurrentPedido(updatedCurrentPedido);
           setTotalProdutos(totalProdutos - 1);
           setTotalPreco(totalPreco - preco);
         } else {
           // Se a quantidade for 1, remove o produto do array
-          const updatedTempProdutos = tempProdutos.filter(
+          const updatedCurrentPedido = currentPedido.filter(
             (tempProduto) => tempProduto.nome !== produto.nome
           );
 
-          setTempProdutos(updatedTempProdutos);
+          setCurrentPedido(updatedCurrentPedido);
           setTotalProdutos(totalProdutos - 1);
           setTotalPreco(totalPreco - preco);
         }
@@ -151,9 +166,10 @@ export default function Pedidos() {
 
   const handleClientSelect = (client) => {
     setSelectedClient(client);
-    setPedidos([]);
-    setTotalProdutos(0);
-    setTotalPreco(0);
+    // Não limpe os pedidos temporários ao selecionar um cliente
+    // setPedidos([]);
+    // setTotalProdutos(0);
+    // setTotalPreco(0);
   };
 
   const handleSearchInputChange = (event) => {
