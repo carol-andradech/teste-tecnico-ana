@@ -51,10 +51,18 @@ export default function Pedidos() {
     setTotalPreco(0);
   };
 
-  const onSubmitNewPedido = (formData) => {
+  const handleSavePedido = () => {
     if (selectedClient && tempProdutos.length > 0) {
       const novoPedido = {
         cliente: selectedClient.nome,
+        quantidade: tempProdutos.reduce(
+          (acc, tempProduto) => acc + tempProduto.quantidade,
+          0
+        ),
+        total: tempProdutos.reduce(
+          (acc, tempProduto) => acc + tempProduto.total,
+          0
+        ),
         produtos: tempProdutos,
       };
 
@@ -64,6 +72,12 @@ export default function Pedidos() {
       setSelectedClient(null);
       setSearchTerm("");
       setTempProdutos([]); // Limpa os produtos temporários
+      setTotalProdutos(0);
+      setTotalPreco(0);
+    } else {
+      console.log(
+        "Erro: cliente não selecionado ou nenhum produto adicionado ao pedido."
+      );
     }
   };
 
@@ -174,7 +188,7 @@ export default function Pedidos() {
         className="modal-content"
       >
         <h2>Cadastro do Pedido</h2>
-        <form onSubmit={handleSubmit(onSubmitNewPedido)}>
+        <form>
           <div className="dropdown">
             <select
               name="cliente"
@@ -256,7 +270,7 @@ export default function Pedidos() {
 
             <p>Valor Total do Pedido: R${totalPreco}</p>
           </div>
-          <button type="submit">Salvar</button>
+          <button onClick={handleSavePedido}>Salvar Pedido</button>
         </form>
       </Modal>
 
