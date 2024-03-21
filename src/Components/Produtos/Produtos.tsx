@@ -4,16 +4,17 @@ import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import searchImg from "../../assets/search-img.svg"; // Importe a imagem de pesquisa
+import searchImg from "../../assets/search-img.svg";
 import { useProduto } from "../Produtos/useLocalStorageProduto";
 import "./Produtos.css";
 Modal.setAppElement("#root");
+
 // Defina o esquema de validação para os campos do formulário
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório"),
   preco: yup.string().required("Preço é obrigatório"),
   descricao: yup.string().required("Descrição é obrigatória"),
-  imagem: yup.string().notRequired(), // Torna a imagem opcional
+  imagem: yup.string().notRequired(),
 });
 
 export default function Produtos() {
@@ -21,7 +22,7 @@ export default function Produtos() {
   const [selectedProduto, setSelectedProduto] = useState(null);
   const [newProductModalOpen, setNewProductModalOpen] = useState(false);
   const [produtoDetailsModalOpen, setProdutoDetailsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de pesquisa
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
   const { createProduto, deleteProduto, produto } = useProduto();
@@ -65,7 +66,7 @@ export default function Produtos() {
     if (selectedImage) {
       data.imagem = selectedImage;
     } else {
-      delete data.imagem; // Remove o campo imagem se não houver imagem selecionada
+      delete data.imagem;
     }
     createProduto(data);
     setNewProductModalOpen(false);
@@ -95,6 +96,7 @@ export default function Produtos() {
       {/*<button onClick={handleDeleteAllProdutos}>
         Deletar Todos os Produtos
       </button>*/}
+
       <div className="search">
         <div className="search-bar">
           <div className="div-input">
@@ -152,12 +154,12 @@ export default function Produtos() {
                   id="upload-button"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  style={{ display: "none" }} // ocultando o input file
+                  style={{ display: "none" }}
                 />
                 <button
                   onClick={() =>
                     document.getElementById("upload-button").click()
-                  } // simulando o clique no input file ao clicar no botão
+                  }
                   className="upload-button"
                 >
                   Faça o upload da foto
@@ -169,7 +171,7 @@ export default function Produtos() {
                     src={selectedImage}
                     alt="Preview"
                     className="preview-image"
-                    style={{ maxWidth: "200px", maxHeight: "200px" }} // Definindo um tamanho máximo
+                    style={{ maxWidth: "200px", maxHeight: "200px" }}
                   />
                 )}
 

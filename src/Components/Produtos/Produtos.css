@@ -52,10 +52,9 @@
 }
 
 .modal-details img {
-  width: 400px; /* Defina a largura desejada para todas as imagens */
-  height: 400px; /* Defina a altura desejada para todas as imagens */
-  /* Redimensiona a imagem mantendo sua proporção e preenchendo o contêiner */
-  border-radius: 10px; /* Arredonde as bordas da imagem, se necessário */
+  width: 400px;
+  height: 400px;
+  border-radius: 10px;
 }
 .modal-content {
   width: 100vh;
@@ -115,9 +114,9 @@ input:focus {
 }
 
 .custom-hr {
-  margin: 10px; /* Ajuste a margem conforme necessário */
-  border: none; /* Remova a borda padrão */
-  border-top: 1px solid #ccc; /* Adicione uma borda superior */
+  margin: 10px;
+  border: none;
+  border-top: 1px solid #ccc;
 }
 
 .btn-salvar {

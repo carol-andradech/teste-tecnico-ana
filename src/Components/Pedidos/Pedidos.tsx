@@ -18,7 +18,7 @@ const schema = yup.object().shape({
       nome: yup.string().required("Nome do produto é obrigatório"),
       quantidade: yup
         .number()
-        .min(0, "Quantidade mínima é 0") // Agora permitimos 0 para produtos removidos
+        .min(0, "Quantidade mínima é 0")
         .required("Quantidade é obrigatória"),
       preco: yup.number().required("Preço do produto é obrigatório"),
       total: yup.number().required("Total do produto é obrigatório"),
@@ -325,7 +325,6 @@ export default function Pedidos() {
                 <span> Qtd. produtos: {pedido.quantidade}</span>{" "}
               </div>
               <div className="pedido-right">
-                {/* Adicionando logs para depurar */}
                 {console.log("pedido.total:", pedido.total)}
                 <p> R${pedido.total.toFixed(2)}</p>
               </div>

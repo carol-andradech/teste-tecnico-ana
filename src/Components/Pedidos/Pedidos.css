@@ -1,17 +1,17 @@
 .dropdown {
   position: relative;
   width: 100%;
-  margin-bottom: 1rem; /* Espaçamento inferior */
+  margin-bottom: 1rem;
 }
 
 .dropdown select {
   width: 100%;
-  padding: 0.5rem; /* Espaçamento interno */
-  border: 1px solid #ccc; /* Borda */
-  border-radius: 4px; /* Borda arredondada */
-  appearance: none; /* Remove a aparência padrão do sistema */
-  background-color: white; /* Cor de fundo */
-  cursor: pointer; /* Cursor de ponteiro */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  background-color: white;
+  cursor: pointer;
 }
 
 /* Estilização quando o dropdown está aberto */
@@ -32,8 +32,8 @@
   top: 50%;
   right: 10px;
   transform: translateY(-50%);
-  pointer-events: none; /* Evita que o ícone do dropdown seja clicável */
-  color: #888; /* Cor do ícone */
+  pointer-events: none;
+  color: #888;
 }
 
 .btn-search {
@@ -68,13 +68,13 @@
   padding: 20px;
   margin: 10px 30px 10px 0;
   flex-direction: row;
-  flex-grow: 1; /* Faz o item de produto ocupar todo o espaço disponível */
+  flex-grow: 1;
 }
 
 .produto-item-pedido img {
-  width: 100px; /* Largura da imagem */
-  height: 100px; /* Altura da imagem */
-  margin-right: 10px; /* Espaçamento à direita da imagem */
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
 }
 
 .produto-item-pedido span {
@@ -94,10 +94,10 @@
   background-color: #adcff3;
   width: 25px;
   height: 25px;
-  border: none; /* Remova a borda do botão */
-  border-radius: 50%; /* Faça a borda completamente redonda */
-  color: #007bff; /*/* Alinhe verticalmente o texto ao centro */
-  cursor: pointer; /* Transforme o cursor em um ponteiro ao passar sobre o botão */
+  border: none;
+  border-radius: 50%;
+  color: #007bff;
+  cursor: pointer;
   margin-left: 10px;
   margin-right: 10px;
   font-weight: bold;

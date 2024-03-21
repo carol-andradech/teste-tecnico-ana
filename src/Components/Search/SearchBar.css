@@ -18,9 +18,9 @@
 
 .search-icon {
   position: absolute;
-  right: 10px; // Ajustado para 10px para posicionar corretamente
-  top: 50%; // Ajustado para 50% para centralizar verticalmente
-  transform: translateY(-50%); // Centralizar verticalmente
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 20px;
   height: 20px;
 }
