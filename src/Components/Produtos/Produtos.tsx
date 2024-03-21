@@ -95,7 +95,6 @@ export default function Produtos() {
       {/*<button onClick={handleDeleteAllProdutos}>
         Deletar Todos os Produtos
       </button>*/}
-
       <div className="search">
         <div className="search-bar">
           <div className="div-input">

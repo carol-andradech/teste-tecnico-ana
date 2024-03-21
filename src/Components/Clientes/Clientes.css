@@ -60,7 +60,6 @@ input:focus {
   border-radius: 10px;
   color: white;
   padding: 10px;
-  cursor: pointer;
 }
 
 .clients-list {
@@ -123,7 +122,6 @@ input:focus {
 
 .items-modal label {
   margin-bottom: 10px;
-  font-weight: bold;
 }
 
 .items-modal input {
@@ -136,6 +134,16 @@ input:focus {
 .btn-salvar {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.btn-modal {
+  cursor: pointer;
+}
+
+.btn-modal:hover {
+  background-color: white;
+  border: 2px #008dda solid;
+  color: #008dda;
 }
 
 .client-info {

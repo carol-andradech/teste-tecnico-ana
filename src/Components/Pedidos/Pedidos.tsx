@@ -189,7 +189,6 @@ export default function Pedidos() {
       {/* 
 <button onClick={handleDeleteAllPedidos}>Deletar Todos os Pedidos</button>
 */}
-      <button onClick={handleDeleteAllPedidos}>Deletar Todos os Pedidos</button>
       <div className="search">
         <div className="search-bar">
           <div className="div-input">
@@ -295,7 +294,7 @@ export default function Pedidos() {
           <hr className="custom-hr" />
           <div className="info-form">
             <p className="form-total">
-              Total: <span>R${totalPreco}</span>
+              Total: <span>R${totalPreco.toFixed(2)}</span>
             </p>
             <p className="form-total">
               Quantidade de Produtos:{" "}
@@ -307,7 +306,7 @@ export default function Pedidos() {
               </span>
             </p>
             <button
-              className="btn-salvar"
+              className="btn-salvar-pedido"
               onClick={(event) => handleSavePedido(event)}
             >
               Salvar Pedido
@@ -328,7 +327,7 @@ export default function Pedidos() {
               <div className="pedido-right">
                 {/* Adicionando logs para depurar */}
                 {console.log("pedido.total:", pedido.total)}
-                <p> R${pedido.total}</p>
+                <p> R${pedido.total.toFixed(2)}</p>
               </div>
             </div>
           ))

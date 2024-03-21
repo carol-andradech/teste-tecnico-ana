@@ -52,9 +52,9 @@
 }
 
 .modal-details img {
-  width: 300px; /* Defina a largura desejada para todas as imagens */
-  height: 300px; /* Defina a altura desejada para todas as imagens */
-  object-fit: cover; /* Redimensiona a imagem mantendo sua proporção e preenchendo o contêiner */
+  width: 400px; /* Defina a largura desejada para todas as imagens */
+  height: 400px; /* Defina a altura desejada para todas as imagens */
+  /* Redimensiona a imagem mantendo sua proporção e preenchendo o contêiner */
   border-radius: 10px; /* Arredonde as bordas da imagem, se necessário */
 }
 .modal-content {
@@ -62,7 +62,7 @@
 }
 
 .p-detail {
-  font-weight: lighter;
+  color: #9c9ea3;
 }
 
 .form-info {
@@ -123,6 +123,7 @@ input:focus {
 .btn-salvar {
   display: flex;
   flex-direction: column-reverse;
+  cursor: pointer;
 }
 
 .upload-button {
